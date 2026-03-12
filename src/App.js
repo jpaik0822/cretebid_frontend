@@ -17,6 +17,7 @@ async function sha256FromBase64(b64) {
 const App = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [status, setStatus] = useState("");
+  const [prompt, setPrompt] = useState("")
 
   // Only selects file (no upload here)
   const onFileChange = (event) => {
@@ -125,6 +126,25 @@ const App = () => {
       <p style={{ marginTop: 12 }}>{status}</p>
 
       {fileData()}
+
+      <div>
+        <br />
+        <h3>Have any queries about the file, enter them below</h3>
+        <textarea
+          placeholder="Enter your file-related queries"
+          value={prompt}
+          onChange={(e) => setPrompt(e.target.value)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              console.log("Submit prompt:", prompt);
+              // this is where we can send it to backend
+            }
+          }}
+          rows={4}
+          cols={75}
+        />
+      </div>
     </div>
   );
 };
