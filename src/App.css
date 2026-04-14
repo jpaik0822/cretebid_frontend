@@ -1,5 +1,6 @@
 .App {
-  text-align: center;
+  text-align: left;
+  color: #2a2a28;
 }
 
 .App-logo {
@@ -28,10 +29,17 @@
   color: #61dafb;
 }
 
+body {
+  background-color: #fef9f5;
+  font-family: 'Nunito', sans-serif;
+
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }

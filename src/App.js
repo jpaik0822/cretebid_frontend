@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import "./App.css";
+import Sidebar from "./sidebar.js";
 
 // Optional: real SHA-256 (recommended if backend validates sha256)
 async function sha256FromBase64(b64) {
@@ -18,6 +19,8 @@ const App = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [status, setStatus] = useState("");
   const [prompt, setPrompt] = useState("")
+  const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [activePage, setActivePage] = useState("upload");
 
   // Only selects file (no upload here)
   const onFileChange = (event) => {
@@ -115,35 +118,53 @@ const App = () => {
 
   return (
     <div className="App">
-      <h1>CreteBid</h1>
-      <h3>File Upload (Using React)</h3>
 
-      <div>
-        <input type="file" accept="application/pdf" onChange={onFileChange} />
-        <button onClick={onFileUpload}>Upload!</button>
-      </div>
-
-      <p style={{ marginTop: 12 }}>{status}</p>
-
-      {fileData()}
-
-      <div>
-        <br />
-        <h3>Have any queries about the file, enter them below</h3>
-        <textarea
-          placeholder="Enter your file-related queries"
-          value={prompt}
-          onChange={(e) => setPrompt(e.target.value)}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.preventDefault();
-              console.log("Submit prompt:", prompt);
-              // this is where we can send it to backend
-            }
-          }}
-          rows={4}
-          cols={75}
+      <div style={{ display: "flex" }}>
+        <Sidebar
+          isOpen={sidebarOpen}
+          onToggle={() => setSidebarOpen(!sidebarOpen)}
+          activePage={activePage}
+          onNavigate={setActivePage}
         />
+
+        <main style={{ flex: 1, padding: "32px" }}>
+          {activePage === "upload" && (
+            <div>
+              <h1>File Upload (Using React)</h1>
+
+              <div>
+                <input type="file" accept="application/pdf" onChange={onFileChange} />
+                <button onClick={onFileUpload}>Upload!</button>
+              </div>
+
+              <p style={{ marginTop: 12 }}>{status}</p>
+
+              {fileData()}
+            </div>
+          )}
+
+          {activePage === "queries" && (
+            <div>
+              <h1>Cretebid Chatbot</h1>
+              <h3>Have any queries about your file? Enter them below!</h3>
+              <textarea
+                placeholder="Enter your file-related queries"
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    console.log("Submit prompt:", prompt);
+                    // this is where we can send it to backend
+                    setPrompt("")
+                  }
+                }}
+                rows={4}
+                cols={75}
+              />
+            </div>
+          )}
+        </main>
       </div>
     </div>
   );
