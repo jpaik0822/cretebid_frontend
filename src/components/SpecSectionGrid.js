@@ -162,18 +162,20 @@ const Drawer = ({ section, code, onClose }) => {
             <div className="drawer__block-text">{d.tolerance}</div>
           </div>
 
-          {/* Rooms using this code */}
-          <div className="drawer__block">
-            <div className="drawer__block-label">
-              Rooms using {code} &nbsp;·&nbsp; {d.totalSF} total
-            </div>
-            {d.rooms.map((r) => (
-              <div key={r.no} className="drawer__room-row">
-                <span className="drawer__room-name">{r.no} — {r.name}</span>
-                <span className="drawer__room-sf">{r.sf} sf / {r.lf} lf</span>
+          {/* Rooms using this code — only render if rooms data exists */}
+          {d.rooms && d.rooms.length > 0 && (
+            <div className="drawer__block">
+              <div className="drawer__block-label">
+                Rooms using {code} &nbsp;·&nbsp; {d.totalSF} total
               </div>
-            ))}
-          </div>
+              {d.rooms.map((r) => (
+                <div key={r.no} className="drawer__room-row">
+                  <span className="drawer__room-name">{r.no} — {r.name}</span>
+                  <span className="drawer__room-sf">{r.sf} sf / {r.lf} lf</span>
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </>

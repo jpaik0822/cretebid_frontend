@@ -2,11 +2,12 @@ import axios from "axios";
 import React, { useState } from "react";
 import "./App.css";
 
-import SummaryCards      from "./components/SummaryCards";
-import SpecSectionGrid   from "./components/SpecSectionGrid";
-import TableViewer       from "./components/TableViewer";
-import ChatPanel         from "./components/ChatPanel";
-import FloorplanViewer   from "./components/FloorplanViewer";
+import SummaryCards       from "./components/SummaryCards";
+import SpecSummaryProse   from "./components/SpecSummaryProse";
+import SpecSectionGrid    from "./components/SpecSectionGrid";
+import TableViewer        from "./components/TableViewer";
+import ChatPanel          from "./components/ChatPanel";
+import FloorplanViewer    from "./components/FloorplanViewer";
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 const MOCK_RESPONSE = {
@@ -51,6 +52,7 @@ function normalizeResponse(apiData) {
     sectionsFound: apiData.summary?.sections_found ?? 0,
     roomsFound:    apiData.summary?.rooms_found    ?? 0,
     specSections:  apiData.spec_sections           ?? [],
+    specOutput:    apiData.spec_output             ?? "",
     tables:        apiData.tables                  ?? [],
   };
 }
@@ -226,11 +228,13 @@ const App = () => {
 
             <div className="main-scroll">
 
-              {/* 1. Summary — above floorplan */}
-              <section className="dashboard-section">
-                <div className="section-label">Document summary</div>
-                <SummaryCards data={projectData} />
-              </section>
+              {/* 1. Spec prose summary */}
+              {projectData.specOutput && (
+                <section className="dashboard-section">
+                  <div className="section-label">Specification analysis</div>
+                  <SpecSummaryProse specOutput={projectData.specOutput} />
+                </section>
+              )}
 
               {/* 2. Spec sections */}
               <section className="dashboard-section">

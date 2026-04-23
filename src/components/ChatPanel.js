@@ -18,21 +18,6 @@ const QUICK_CHIPS = [
   "Summarize moisture testing requirements",
 ];
 
-// ─── Placeholder AI responses (replace with real API call when backend ready) ─
-const PLACEHOLDER_RESPONSES = [
-  "I'm reviewing the spec sections for that — once the backend is connected I'll pull the exact requirements from the bid documents.",
-  "That information is in the parsed spec data. The backend team is finishing the chat endpoint and I'll be able to answer that precisely once it's wired up.",
-  "Great question. When the chat API is ready, I'll reference the exact page and section number from the uploaded documents for this.",
-  "I can see that detail in the parsed bid data. Full chat responses will be live once the backend endpoint is connected.",
-];
-
-let placeholderIndex = 0;
-function getPlaceholderResponse() {
-  const msg = PLACEHOLDER_RESPONSES[placeholderIndex % PLACEHOLDER_RESPONSES.length];
-  placeholderIndex++;
-  return msg;
-}
-
 // ─── Format timestamp ─────────────────────────────────────────────────────────
 function formatTime(date) {
   return date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
@@ -96,44 +81,6 @@ const ChatPanel = ({ projectId, projectData }) => {
     const trimmed = text.trim();
     if (!trimmed || isTyping) return;
 
-    const sendMessage = async (text) => {
-  const trimmed = text.trim();
-  if (!trimmed || isTyping) return;
-
-  // Hide chips after first message
-  setChipsOpen(false);
-
-  // Add user message
-  const userMsg = { id: Date.now(), role: "user", text: trimmed, time: new Date() };
-  setMessages((prev) => [...prev, userMsg]);
-  setInput("");
-  setIsTyping(true);
-
-  // ── REAL BACKEND CALL ──────────────────────────────────────────────────────
-  try {
-    const res = await axios.post("http://127.0.0.1:8000/v1/chat", {
-      project_id: projectId,
-      message:    trimmed,
-    });
-    setMessages((prev) => [...prev, {
-      id:   Date.now(),
-      role: "ai",
-      text: res.data.response,
-      time: new Date(),
-    }]);
-  } catch (err) {
-    setMessages((prev) => [...prev, {
-      id:   Date.now(),
-      role: "ai",
-      text: "Sorry, I couldn't reach the server. Please try again.",
-      time: new Date(),
-    }]);
-  } finally {
-    setIsTyping(false);
-  }
-  // ── END BACKEND CALL ───────────────────────────────────────────────────────
-};
-
     // Hide chips after first message
     setChipsOpen(false);
 
@@ -143,44 +90,27 @@ const ChatPanel = ({ projectId, projectData }) => {
     setInput("");
     setIsTyping(true);
 
- 
-    
-     try {
-       const res = await axios.post("http://127.0.0.1:8000/v1/chat", {
-         project_id: projectId,
-         message:    trimmed,
-       });
-       const aiText = res.data.response;
-       setMessages((prev) => [...prev, {
-         id:   Date.now(),
-         role: "ai",
-         text: aiText,
-         time: new Date(),
-       }]);
-     } catch (err) {
-       setMessages((prev) => [...prev, {
-         id:   Date.now(),
-         role: "ai",
-         text: "Sorry, I couldn't reach the server. Please try again.",
-         time: new Date(),
-       }]);
-     } finally {
-       setIsTyping(false);
-     }
-   
-
-    // Placeholder: simulate network delay then return a canned response
-    await new Promise((resolve) => setTimeout(resolve, 900 + Math.random() * 600));
-    setMessages((prev) => [
-      ...prev,
-      {
+    try {
+      const res = await axios.post("http://127.0.0.1:8000/v1/chat", {
+        project_id: projectId,
+        message:    trimmed,
+      });
+      setMessages((prev) => [...prev, {
         id:   Date.now(),
         role: "ai",
-        text: getPlaceholderResponse(),
+        text: res.data.response,
         time: new Date(),
-      },
-    ]);
-    setIsTyping(false);
+      }]);
+    } catch (err) {
+      setMessages((prev) => [...prev, {
+        id:   Date.now(),
+        role: "ai",
+        text: "Sorry, I couldn't reach the server. Please try again.",
+        time: new Date(),
+      }]);
+    } finally {
+      setIsTyping(false);
+    }
   };
 
   const handleKeyDown = (e) => {
