@@ -45,9 +45,9 @@ const SummaryCards = ({ data }) => {
         unit="Div 01, 03 &amp; 09"
       />
       <Card
-        label="Rooms parsed"
+        label="Table rows extracted"
         value={d.roomsFound}
-        unit="with finish codes"
+        unit="across all tables"
       />
     </div>
   );

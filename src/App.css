@@ -1498,6 +1498,29 @@ body {
   flex-direction: column;
 }
 
+.floorplan-viewer__preview-banner {
+  padding: 10px 16px;
+  border-left: 3px solid var(--color-info);
+  background: var(--color-info-bg);
+  border-bottom: 1px solid var(--color-border);
+}
+
+.floorplan-viewer__preview-banner-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--color-info-text);
+  letter-spacing: 0.02em;
+}
+
+.floorplan-viewer__preview-banner-subtitle {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--color-text-secondary);
+  margin-top: 2px;
+  line-height: 1.4;
+}
+
 .floorplan-viewer__titlebar {
   display: flex;
   align-items: center;

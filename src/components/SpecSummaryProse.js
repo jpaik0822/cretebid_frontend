@@ -21,7 +21,7 @@ function parseProseBlocks(text) {
     // Match the category name (case-insensitive) optionally wrapped in ** or ##,
     // followed by an optional colon/dash
     const pat = new RegExp(
-      `(?:\\*{1,2}|#{1,3}\\s*)?${cat.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\*{1,2})?\\s*[:\\-–—]?\\s*`,
+      `(?:\\*{1,2}|#{1,3}\\s*)?${cat.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}(?:\\*{1,2})?\\s*[:\\-–—]\\s*`,
       "i"
     );
     const m = pat.exec(text);

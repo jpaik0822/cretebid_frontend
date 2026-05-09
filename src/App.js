@@ -245,7 +245,7 @@ const App = () => {
               {/* 3. Floorplan viewing window */}
               <section className="dashboard-section">
                 <div className="section-label">
-                  Floorplan viewer
+                  Floorplan viewer — Feature preview
                   {activeRoom && (
                     <span style={{
                       marginLeft: 10, fontFamily: "var(--font-mono)",

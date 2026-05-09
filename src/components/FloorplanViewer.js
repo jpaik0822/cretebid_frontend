@@ -62,6 +62,16 @@ const FloorplanViewer = ({ projectName, onRoomClick }) => {
   return (
     <div className="floorplan-viewer">
 
+      {/* Feature Preview banner */}
+      <div className="floorplan-viewer__preview-banner">
+        <div className="floorplan-viewer__preview-banner-title">
+          Feature Preview — Sample Architectural Drawing
+        </div>
+        <div className="floorplan-viewer__preview-banner-subtitle">
+          Room Geometry Agent demo using sample floor plan data. Live integration processes uploaded architectural drawings.
+        </div>
+      </div>
+
       {/* Sheet title bar */}
       <div className="floorplan-viewer__titlebar">
         <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
